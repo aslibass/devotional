@@ -1,0 +1,236 @@
+{
+  "themes": [
+    {
+      "theme": "Healing",
+      "authors": [
+        {
+          "name": "Thom Gardner",
+          "about": "A spiritual director and writer who leads readers into deeper freedom through Christ‑centered healing.",
+          "books": [
+            "Healing the Wounded Heart",
+            "Relentless Love",
+            "Living the God‑Breathed Life"
+          ]
+        },
+        {
+          "name": "Leanne Payne",
+          "about": "A missionary and author renowned for her work on inner healing and the compassionate heart of God.",
+          "books": [
+            "Restoring the Christian Soul",
+            "Healing the Wounded Heart",
+            "Calvary Within"
+          ]
+        },
+        {
+          "name": "Dan Allender",
+          "about": "A counselor and storyteller who addresses trauma and healing through narrative and biblical truth.",
+          "books": [
+            "The Wounded Heart",
+            "To Be Told",
+            "The Healing Path"
+          ]
+        },
+        {
+          "name": "Sheila Walsh",
+          "about": "A speaker and author whose transparent walk through pain and hope points others to Jesus's tender love.",
+          "books": [
+            "Honestly, God?",
+            "Life Is Tough, God Is Good",
+            "Smoke on the Mountain"
+          ]
+        },
+        {
+          "name": "John Eldredge",
+          "about": "An author who explores heart‑level healing and adventure in Christ through honest storytelling.",
+          "books": [
+            "Wild at Heart",
+            "Get Your Life Back",
+            "Waking the Dead"
+          ]
+        },
+        {
+          "name": "Beth Moore",
+          "about": "A Bible teacher and author known for guiding women through deliverance, restoration, and deeper intimacy with God.",
+          "books": [
+            "Get Out of That Pit: Straight Talk about God's Deliverance",
+            "Breaking Free: The Journey, the Stories",
+            "The Quest: An Excursion Toward Intimacy with God"
+          ]
+        },
+        {
+          "name": "Sue Detweiler",
+          "about": "A speaker and Bible teacher who brings gentle encouragement to women seeking renewal and spiritual refreshment in Christ.",
+          "books": [
+            "Healing Rain: Immersing Yourself in Christ's Love to Find Wholeness",
+            "Women Who Move Mountains",
+            "9 Traits of a Life‑Giving Mom"
+          ]
+        }
+      ]
+    },
+    {
+  "theme": "Presence",
+  "authors": [
+    {
+      "name": "Brother Lawrence",
+      "about": "A 17th-century Carmelite monk who practiced the presence of God in everyday tasks, teaching that all moments can be sacred encounters with the Divine.",
+      "books": [
+        "The Practice of the Presence of God",
+        "Practicing His Presence",
+        "The Practice of the Presence of God with Spiritual Maxims"
+      ]
+    },
+    {
+      "name": "Dallas Willard",
+      "about": "A philosopher and spiritual formation teacher who invites believers into transformative life through practical spiritual disciplines.",
+      "books": [
+        "The Spirit of the Disciplines",
+        "Hearing God",
+        "Renovation of the Heart"
+      ]
+    },
+    {
+      "name": "A.W. Tozer",
+      "about": "A pastor and devotional writer who stirred hearts toward awe of God's majesty through vivid reflections on His attributes.",
+      "books": [
+        "The Attributes of God Volume 1",
+        "The Knowledge of the Holy",
+        "The Attributes of God Volume 2"
+      ]
+    },
+    {
+      "name": "Mike Yaconelli",
+      "about": "A pastor and storyteller who championed curiosity, creativity, and authentic encounter with God amid the ordinary.",
+      "books": [
+        "Dangerous Wonder",
+        "Messy Spirituality",
+        "Getting Fired for the Glory of God"
+      ]
+    },
+    {
+      "name": "Sarah Clarkson",
+      "about": "A writer and speaker who explores how beauty, story, and Sabbath shape a life in God's presence even in suffering.",
+      "books": [
+        "This Beautiful Truth",
+        "Read for the Heart",
+        "Caught Up in a Story"
+      ]
+    },
+    {
+      "name": "Eugene Peterson",
+      "about": "A pastor, poet, and translator whose pastoral theology invites believers into soulful obedience and contemplative presence.",
+      "books": [
+        "A Long Obedience in the Same Direction",
+        "The Contemplative Pastor",
+        "Eat This Book"
+      ]
+    },
+    {
+      "name": "Roy Godwin",
+      "about": "A pastor and author who encourages dwelling in God's presence through blessing, prayer, and relational intimacy.",
+      "books": [
+        "The Grace Outpouring",
+        "And I Will Bless Them",
+        "The Way of Blessing"
+      ]
+    }
+  ]
+},
+
+    {
+      "theme": "Truth",
+      "authors": [
+        {
+          "name": "C.S. Lewis",
+          "about": "A writer and scholar whose imaginative apologetics and theological classics continue to shape Christian thought.",
+          "books": [
+            "Mere Christianity",
+            "The Problem of Pain",
+            "The Screwtape Letters"
+          ]
+        },
+        {
+          "name": "John Lennox",
+          "about": "A mathematician and apologist who engages skeptics with clear reasoning and firm confidence in the gospel.",
+          "books": [
+            "God's Undertaker",
+            "Against the Flow",
+            "Determined to Believe"
+          ]
+        },
+        {
+          "name": "Alister McGrath",
+          "about": "A theologian and historian who bridges science, faith, and intellectual rigor in addressing contemporary objections.",
+          "books": [
+            "The Dawkins Delusion?",
+            "Mere Apologetics",
+            "Surprised by Meaning"
+          ]
+        },
+        {
+          "name": "Nancy Pearcey",
+          "about": "A philosopher and author who challenges cultural relativism and defends a biblical worldview with clarity.",
+          "books": [
+            "Total Truth",
+            "Love Thy Body",
+            "Finding Truth"
+          ]
+        },
+        {
+          "name": "Rebecca McLaughlin",
+          "about": "An apologist and author committed to equipping younger generations with warm, intellectually sound defense of faith.",
+          "books": [
+            "Confronting Christianity",
+            "Putting on Christ",
+            "The Secular Creed?"
+          ]
+        },
+        {
+          "name": "Sean McDowell",
+          "about": "An apologist and speaker who helps students and parents thoughtfully engage faith in culture.",
+          "books": [
+            "Is God Just a Human Invention?",
+            "So the Next Generation Will Know",
+            "Jesus on Trial"
+          ]
+        },
+        {
+          "name": "Kevin DeYoung",
+          "about": "A pastor and author known for clear, theologically grounded defense of biblical orthodoxy in church and society.",
+          "books": [
+            "The Biggest Story",
+            "Taking God at His Word",
+            "Just Do Something"
+          ]
+        },
+        {
+          "name": "William Lane Craig",
+          "about": "A philosopher and theologian noted for his rigorous defense of the existence of God and the resurrection.",
+          "books": [
+            "Reasonable Faith",
+            "On Guard",
+            "The Kalam Cosmological Argument"
+          ]
+        },
+        {
+          "name": "Os Guinness",
+          "about": "A social critic and apologist whose writing calls society to rediscover biblical truth and the public calling of faith.",
+          "books": [
+            "The Call",
+            "Time for Truth",
+            "The Case for Civility"
+          ]
+        },
+        {
+          "name": "Al Mohler",
+          "about": "A pastor and seminary president dedicated to defending orthodoxy with conviction and pastoral care.",
+          "books": [
+            "We Cannot Be Silent",
+            "The Conviction to Lead",
+            "The Gathering Storm"
+          ]
+        }
+      ]
+    }
+  ]
+}
