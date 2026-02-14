@@ -123,8 +123,8 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // Handle client-side routing - send all non-API requests to index.html
-// Express 5.x requires wildcards in curly braces: {*splat}
-app.get('/{*splat}', (req, res) => {
+// Use middleware instead of route to avoid Express 5.x path-to-regexp issues
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
