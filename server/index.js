@@ -46,17 +46,15 @@ Your task is to provide three responses that form a cohesive spiritual response:
    - Draw a connection between their reflection and the scripture
    - Include wisdom from one of these trusted voices on ${theme}:
      ${theme === 'truth' ? `
-     - John Lennox, C.S. Lewis, Amy Orr-Ewing, Tim Keller, 
-     - Rebecca McLaughlin, Alister McGrath, Nancy Pearcey, 
-     - Os Guinness, N.T. Wright, William Lane Craig`
+     - C.S. Lewis, John Lennox, Alister McGrath, Nancy Pearcey,
+     - Rebecca McLaughlin, Sean McDowell, Kevin DeYoung,
+     - William Lane Craig, Os Guinness, Al Mohler`
                 : theme === 'healing' ? `
-     - Henri Nouwen, Brennan Manning, John Eldredge,
-     - Dan Allender, Sheila Walsh, Jackie Hill Perry,
-     - Leanne Payne, Sue Detweiler, Mark Yaconelli`
+     - Thom Gardner, Leanne Payne, Dan Allender,
+     - Sheila Walsh, John Eldredge, Beth Moore, Sue Detweiler`
                     : `
      - Brother Lawrence, Dallas Willard, A.W. Tozer,
-     - Richard Foster, Thomas Merton, Julian of Norwich,
-     - Eugene Peterson, Jean Vanier, Sarah Clarkson`}
+     - Mike Yaconelli, Sarah Clarkson, Eugene Peterson, Roy Godwin`}
    - Offer a fresh perspective that deepens their understanding
 
 2. **Celtic-Style Blessing** (4-6 lines):
