@@ -15,11 +15,11 @@ interface DevotionalCardProps {
 const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate, totalDays }) => {
   const { isDarkMode, dayNumber } = useTheme();
   const theme = THEMES[devotional.day];
-  
+
   // Progress tracking
   const [currentStep, setCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
-  
+
   // Content states
   const [journalText, setJournalText] = useState('');
   const [aiResponse, setAiResponse] = useState<{
@@ -34,13 +34,12 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
 
   // Define the devotional steps
   const steps = [
-    { id: 'welcome', title: 'Welcome', icon: Star },
-    { id: 'prepare', title: 'Prepare Your Heart', icon: Heart },
-    { id: 'scripture', title: 'Scripture', icon: BookOpen },
-    { id: 'teaching', title: 'Teaching', icon: Quote },
-    { id: 'reflect', title: 'Soul Reflection', icon: PenTool },
-    { id: 'pray', title: 'Prayer & Action', icon: Feather },
-    { id: 'blessing', title: 'Blessing', icon: Sparkles }
+    { id: 'prepare', name: 'Prepare', icon: Heart },
+    { id: 'scripture', name: 'Scripture', icon: BookOpen },
+    { id: 'teaching', name: 'Teaching', icon: Quote },
+    { id: 'reflect', name: 'Reflect', icon: PenTool },
+    { id: 'pray', name: 'Prayer', icon: Feather },
+    { id: 'blessing', name: 'Blessing', icon: Sparkles }
   ];
 
   const copyToClipboard = (text: string, type: string) => {
@@ -61,7 +60,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
 
   const handleGetAIResponse = async () => {
     if (!journalText.trim()) return;
-    
+
     setIsGeneratingResponse(true);
     try {
       const response = await generateReflectionResponse(
@@ -71,7 +70,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
       );
 
       setAiResponse(response);
-      
+
     } catch (error) {
       console.error('Error getting AI response:', error);
     } finally {
@@ -103,16 +102,16 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
   };
 
   // Enhanced image component with better styling
-  const DevotionalImage: React.FC<{ className?: string; showCaption?: boolean }> = ({ 
-    className = "", 
-    showCaption = false 
+  const DevotionalImage: React.FC<{ className?: string; showCaption?: boolean }> = ({
+    className = "",
+    showCaption = false
   }) => {
     if (!devotional.devotionalImage) return null;
-    
+
     return (
       <div className={`relative overflow-hidden rounded-xl ${className}`}>
-        <img 
-          src={devotional.devotionalImage} 
+        <img
+          src={devotional.devotionalImage}
           alt={`${theme.name} devotional illustration`}
           className="w-full h-full object-cover"
           onError={(e) => {
@@ -132,46 +131,23 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
 
   const renderProgressBar = () => (
     <div className="mb-8">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-serif text-2xl md:text-3xl" style={{ color: theme.color }}>
-          {theme.name} • Day {dayNumber}
-        </h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => onNavigate('prev')}
-            className="p-2 rounded-full transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-            aria-label="Previous day"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <button
-            onClick={() => onNavigate('next')}
-            className="p-2 rounded-full transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-            aria-label="Next day"
-          >
-            <ArrowRight size={20} />
-          </button>
-        </div>
-      </div>
-      
       <div className="flex items-center gap-2 overflow-x-auto pb-2">
         {steps.map((step, index) => {
           const Icon = step.icon;
           const isActive = index === currentStep;
           const isCompleted = completedSteps.has(index);
-          
+
           return (
             <button
               key={step.id}
               onClick={() => goToStep(index)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm transition-all duration-300 whitespace-nowrap ${
-                isActive ? 'text-white' : ''
-              }`}
+              className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm transition-all duration-300 whitespace-nowrap ${isActive ? 'text-white' : ''
+                }`}
               style={{
-                backgroundColor: isActive 
-                  ? theme.color 
-                  : isCompleted 
-                    ? `${theme.color}20` 
+                backgroundColor: isActive
+                  ? theme.color
+                  : isCompleted
+                    ? `${theme.color}20`
                     : 'transparent',
                 border: `1px solid ${theme.color}`,
                 color: isActive ? 'white' : theme.color
@@ -182,7 +158,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
               ) : (
                 <Icon size={16} />
               )}
-              <span className="hidden md:inline">{step.title}</span>
+              <span className="hidden md:inline">{step.name}</span>
             </button>
           );
         })}
@@ -192,80 +168,8 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
 
   const renderStepContent = () => {
     const step = steps[currentStep];
-    
+
     switch (step.id) {
-      case 'welcome':
-        return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-6"
-          >
-            {/* Enhanced Promise Card with Devotional Image Background */}
-            <div className="relative overflow-hidden rounded-xl shadow-lg min-h-[400px]">
-              {/* Background Image Layer */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ 
-                  backgroundImage: devotional.devotionalImage 
-                    ? `url(${devotional.devotionalImage})` 
-                    : `url(${devotional.promiseImage})`,
-                  filter: 'brightness(0.3)'
-                }}
-              />
-              
-              {/* Color Overlay */}
-              <div 
-                className="absolute inset-0"
-                style={{
-                  background: `linear-gradient(135deg, ${theme.color}90, ${theme.color}60)`
-                }}
-              />
-              
-              {/* Content */}
-              <div className="relative z-10 p-8 text-white text-center flex flex-col justify-center min-h-[400px]">
-                <div className="flex items-center justify-center gap-2 mb-6">
-                  <Star size={28} className="text-yellow-300" />
-                  <h3 className="font-serif text-2xl">Promise for Today</h3>
-                  <Star size={28} className="text-yellow-300" />
-                </div>
-                
-                <blockquote className="font-serif text-3xl md:text-4xl leading-relaxed mb-6 text-shadow">
-                  "{devotional.promiseForTheDay}"
-                </blockquote>
-                
-                <div className="flex items-center justify-center gap-4">
-                  <button 
-                    onClick={() => copyToClipboard(devotional.promiseForTheDay, 'promise')}
-                    className="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors relative group"
-                  >
-                    <Copy size={18} />
-                    <span 
-                      className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
-                    >
-                      {copiedText === 'promise' ? 'Copied!' : 'Copy promise'}
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center">
-              <p className="text-lg mb-6 opacity-75">
-                Welcome to your spiritual journey for today. Take a moment to receive this promise into your heart.
-              </p>
-              <button
-                onClick={nextStep}
-                className="px-8 py-3 rounded-full text-white transition-all duration-300 flex items-center gap-2 mx-auto"
-                style={{ backgroundColor: theme.color }}
-              >
-                <span>Begin Journey</span>
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          </motion.div>
-        );
-
       case 'prepare':
         return (
           <motion.div
@@ -275,8 +179,8 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
           >
             {/* Image Header */}
             <DevotionalImage className="h-48 shadow-lg" showCaption />
-            
-            <div 
+
+            <div
               className="p-8 rounded-lg text-center"
               style={{ backgroundColor: isDarkMode ? 'rgba(0,0,0,0.2)' : 'white' }}
             >
@@ -312,9 +216,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
             <div className="grid md:grid-cols-2 gap-6">
               {/* Image */}
               <DevotionalImage className="h-64 md:h-80 shadow-lg" />
-              
+
               {/* Scripture Content */}
-              <div 
+              <div
                 className="p-6 rounded-lg flex flex-col justify-center"
                 style={{ backgroundColor: isDarkMode ? 'rgba(0,0,0,0.2)' : 'white' }}
               >
@@ -323,12 +227,12 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   <h3 className="font-serif text-xl" style={{ color: theme.color }}>
                     Today's Scripture
                   </h3>
-                  <button 
+                  <button
                     onClick={() => copyToClipboard(`${devotional.scripture.text} - ${devotional.scripture.reference}`, 'scripture')}
                     className="ml-auto p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative group"
                   >
                     <Copy size={16} />
-                    <span 
+                    <span
                       className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
                     >
                       {copiedText === 'scripture' ? 'Copied!' : 'Copy scripture'}
@@ -336,9 +240,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   </button>
                 </div>
 
-                <div 
+                <div
                   className="p-4 rounded-md mb-4"
-                  style={{ 
+                  style={{
                     backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                     border: `1px solid ${theme.accent}`
                   }}
@@ -353,9 +257,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
               </div>
             </div>
 
-            <div 
+            <div
               className="p-6 rounded-md text-center"
-              style={{ 
+              style={{
                 backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                 border: `1px solid ${theme.accent}`
               }}
@@ -390,7 +294,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <div 
+            <div
               className="p-6 rounded-lg"
               style={{ backgroundColor: isDarkMode ? 'rgba(0,0,0,0.2)' : 'white' }}
             >
@@ -405,9 +309,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
               <DevotionalImage className="h-56 mb-6 shadow-lg" />
 
               <div className="space-y-6">
-                <div 
+                <div
                   className="p-6 rounded-md"
-                  style={{ 
+                  style={{
                     backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                     border: `1px solid ${theme.accent}`
                   }}
@@ -418,9 +322,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   <p className="leading-relaxed">{devotional.teaching}</p>
                 </div>
 
-                <div 
+                <div
                   className="p-6 rounded-md"
-                  style={{ 
+                  style={{
                     backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                     border: `1px solid ${theme.accent}`
                   }}
@@ -452,7 +356,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <div 
+            <div
               className="p-6 rounded-lg"
               style={{ backgroundColor: isDarkMode ? 'rgba(0,0,0,0.2)' : 'white' }}
             >
@@ -466,9 +370,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
               {/* Smaller image for reflection context */}
               <DevotionalImage className="h-32 mb-6 shadow-md" />
 
-              <div 
+              <div
                 className="p-4 rounded-md mb-6"
-                style={{ 
+                style={{
                   backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                   border: `1px solid ${theme.accent}`
                 }}
@@ -480,13 +384,13 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                       Today's Prompt
                     </h4>
                   </div>
-                  <button 
+                  <button
                     onClick={() => copyToClipboard(devotional.reflection, 'reflection')}
                     className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative group"
                     aria-label="Copy reflection prompt"
                   >
                     <Copy size={16} />
-                    <span 
+                    <span
                       className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
                     >
                       {copiedText === 'reflection' ? 'Copied!' : 'Copy prompt'}
@@ -504,7 +408,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   onBlur={() => setIsTextareaFocused(false)}
                   placeholder=" "
                   className="w-full min-h-[200px] p-4 rounded-md bg-gray-50 dark:bg-gray-800 border transition-all duration-300 focus:ring-2 focus:ring-opacity-50"
-                  style={{ 
+                  style={{
                     borderColor: isTextareaFocused ? theme.color : theme.accent,
                     boxShadow: isTextareaFocused ? `0 0 0 2px ${theme.color}20` : `0 4px 12px ${theme.color}10`,
                     resize: 'vertical'
@@ -520,7 +424,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   </div>
                 )}
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <button
                   onClick={nextStep}
@@ -529,7 +433,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                 >
                   Continue to Prayer
                 </button>
-                
+
                 <motion.button
                   onClick={handleGetAIResponse}
                   disabled={!journalText.trim() || isGeneratingResponse}
@@ -559,15 +463,15 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
 
               <AnimatePresence>
                 {aiResponse && (
-                  <motion.div 
+                  <motion.div
                     className="space-y-6 mt-8 pt-8 border-t border-gray-200 dark:border-gray-700"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                   >
-                    <div 
+                    <div
                       className="p-4 rounded-md"
-                      style={{ 
+                      style={{
                         backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                         border: `1px solid ${theme.accent}`
                       }}
@@ -579,9 +483,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                       <p className="italic leading-relaxed">{aiResponse.insight}</p>
                     </div>
 
-                    <div 
+                    <div
                       className="p-4 rounded-md"
-                      style={{ 
+                      style={{
                         backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                         border: `1px solid ${theme.accent}`
                       }}
@@ -592,9 +496,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                       <p className="italic leading-relaxed">{aiResponse.blessing}</p>
                     </div>
 
-                    <div 
+                    <div
                       className="p-4 rounded-md"
-                      style={{ 
+                      style={{
                         backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                         border: `1px solid ${theme.accent}`
                       }}
@@ -618,7 +522,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <div 
+            <div
               className="p-6 rounded-lg"
               style={{ backgroundColor: isDarkMode ? 'rgba(0,0,0,0.2)' : 'white' }}
             >
@@ -633,9 +537,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
               <DevotionalImage className="h-40 mb-6 shadow-md" />
 
               <div className="space-y-6">
-                <div 
+                <div
                   className="p-6 rounded-md"
-                  style={{ 
+                  style={{
                     backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                     border: `1px solid ${theme.accent}`
                   }}
@@ -647,9 +551,9 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   <p className="leading-relaxed">{devotional.physicalAction}</p>
                 </div>
 
-                <div 
+                <div
                   className="p-6 rounded-md"
-                  style={{ 
+                  style={{
                     backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
                     border: `1px solid ${theme.accent}`
                   }}
@@ -687,23 +591,23 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
           >
             {/* Final image with blessing overlay */}
             <div className="relative overflow-hidden rounded-xl shadow-lg min-h-[300px]">
-              <div 
+              <div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ 
-                  backgroundImage: devotional.devotionalImage 
-                    ? `url(${devotional.devotionalImage})` 
+                style={{
+                  backgroundImage: devotional.devotionalImage
+                    ? `url(${devotional.devotionalImage})`
                     : `url(${devotional.promiseImage})`,
                   filter: 'brightness(0.4)'
                 }}
               />
-              
-              <div 
+
+              <div
                 className="absolute inset-0"
                 style={{
                   background: `linear-gradient(135deg, ${theme.color}70, ${theme.color}50)`
                 }}
               />
-              
+
               <div className="relative z-10 p-8 text-white text-center flex flex-col justify-center min-h-[300px]">
                 <Sparkles size={32} className="mx-auto mb-4 text-yellow-300" />
                 <h3 className="font-serif text-2xl mb-6">
@@ -714,8 +618,8 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                 </p>
               </div>
             </div>
-            
-            <div 
+
+            <div
               className="p-8 rounded-lg text-center"
               style={{ backgroundColor: isDarkMode ? 'rgba(0,0,0,0.2)' : 'white' }}
             >
@@ -727,7 +631,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   <button
                     onClick={() => setCurrentStep(0)}
                     className="px-6 py-3 rounded-full border transition-all duration-300"
-                    style={{ 
+                    style={{
                       borderColor: theme.color,
                       color: theme.color
                     }}
@@ -753,14 +657,14 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="max-w-2xl mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       {renderProgressBar()}
-      
+
       <div className="min-h-[600px]">
         <AnimatePresence mode="wait">
           <motion.div
@@ -780,11 +684,10 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
         <button
           onClick={prevStep}
           disabled={currentStep === 0}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
-            currentStep === 0 
-              ? 'opacity-50 cursor-not-allowed' 
-              : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-          }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${currentStep === 0
+            ? 'opacity-50 cursor-not-allowed'
+            : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+            }`}
         >
           <ArrowLeft size={16} />
           <span>Previous</span>
@@ -797,11 +700,10 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
         <button
           onClick={nextStep}
           disabled={currentStep === steps.length - 1}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
-            currentStep === steps.length - 1 
-              ? 'opacity-50 cursor-not-allowed' 
-              : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-          }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${currentStep === steps.length - 1
+            ? 'opacity-50 cursor-not-allowed'
+            : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+            }`}
         >
           <span>Next</span>
           <ArrowRight size={16} />

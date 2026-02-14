@@ -5,17 +5,23 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:backend": "node server/index.js",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:backend\"",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview --host 0.0.0.0 --port ${PORT:-4173}"
+    "preview": "vite preview --host 0.0.0.0 --port ${PORT:-4173}",
+    "start": "node server/index.js"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "framer-motion": "^11.1.14",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "framer-motion": "^11.1.14",
-    "react-use": "^17.5.0",
-    "openai": "^4.28.0"
+    "react-use": "^17.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
