@@ -1,6 +1,7 @@
 import { Day } from '../types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// Use relative URL in production (Railway), localhost in development
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 export const generateReflectionResponse = async (
   reflection: string,

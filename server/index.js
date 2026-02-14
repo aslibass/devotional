@@ -112,7 +112,23 @@ Example:
     }
 });
 
+// Serve static frontend files in production
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the dist directory
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// Handle client-side routing - send all non-API requests to index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
 app.listen(PORT, () => {
     console.log(`🚀 Backend API running on port ${PORT}`);
     console.log(`📡 Health check: http://localhost:${PORT}/api/health`);
+    console.log(`🎨 Frontend served from: ${path.join(__dirname, '../dist')}`);
 });
