@@ -18,12 +18,17 @@ export const generateReflectionResponse = async (
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({
         reflection,
         theme,
         scripture
       })
     });
+
+    if (response.status === 401) {
+      throw new Error('AUTH_REQUIRED');
+    }
 
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);

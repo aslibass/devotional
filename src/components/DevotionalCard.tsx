@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 import { THEMES } from '../constants/themes';
 import { Devotional } from '../types';
-import { Copy, ArrowLeft, ArrowRight, BookOpen, Quote, PenTool, Heart, Timer, Feather, Sparkles, MessageCircle, Star, CheckCircle, Image } from 'lucide-react';
+import { Copy, ArrowLeft, ArrowRight, BookOpen, Quote, PenTool, Heart, Timer, Feather, Sparkles, MessageCircle, CheckCircle } from 'lucide-react';
+
 import { generateReflectionResponse } from '../utils/aiService';
 
 interface DevotionalCardProps {
@@ -14,6 +16,7 @@ interface DevotionalCardProps {
 
 const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate, totalDays }) => {
   const { isDarkMode, dayNumber } = useTheme();
+  const { user } = useAuth();
   const theme = THEMES[devotional.day];
 
   // Progress tracking
@@ -68,11 +71,14 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
         devotional.day,
         devotional.scripture.text
       );
-
       setAiResponse(response);
-
-    } catch (error) {
-      console.error('Error getting AI response:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === 'AUTH_REQUIRED') {
+        // Session expired mid-session — prompt will show automatically via user state
+        console.info('Auth required for AI insights');
+      } else {
+        console.error('Error getting AI response:', error);
+      }
     } finally {
       setIsGeneratingResponse(false);
     }
@@ -114,6 +120,10 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
           src={devotional.devotionalImage}
           alt={`${theme.name} devotional illustration`}
           className="w-full h-full object-cover"
+          loading="lazy"
+          decoding="async"
+          width={800}
+          height={400}
           onError={(e) => {
             e.currentTarget.style.display = 'none';
           }}
@@ -141,6 +151,8 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
             <button
               key={step.id}
               onClick={() => goToStep(index)}
+              aria-label={`${step.name}${isCompleted ? ' (completed)' : ''}`}
+              aria-current={isActive ? 'step' : undefined}
               className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm transition-all duration-300 whitespace-nowrap ${isActive ? 'text-white' : ''
                 }`}
               style={{
@@ -406,7 +418,8 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   onChange={handleJournalChange}
                   onFocus={() => setIsTextareaFocused(true)}
                   onBlur={() => setIsTextareaFocused(false)}
-                  placeholder=" "
+                  aria-label="Write your reflection here. Consider what emotions arise, how this connects to your life, and what God might be inviting you to understand."
+                  placeholder="Write your reflection here…"
                   className="w-full min-h-[200px] p-4 rounded-md bg-gray-50 dark:bg-gray-800 border transition-all duration-300 focus:ring-2 focus:ring-opacity-50"
                   style={{
                     borderColor: isTextareaFocused ? theme.color : theme.accent,
@@ -434,31 +447,46 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                   Continue to Prayer
                 </button>
 
-                <motion.button
-                  onClick={handleGetAIResponse}
-                  disabled={!journalText.trim() || isGeneratingResponse}
-                  className="flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300"
-                  style={{
-                    backgroundColor: journalText.trim() ? theme.color : 'gray',
-                    color: 'white',
-                    opacity: journalText.trim() ? 1 : 0.5,
-                    cursor: journalText.trim() ? 'pointer' : 'not-allowed'
-                  }}
-                  whileHover={journalText.trim() ? { scale: 1.02 } : {}}
-                  whileTap={journalText.trim() ? { scale: 0.98 } : {}}
-                >
-                  {isGeneratingResponse ? (
-                    <>
-                      <Sparkles size={18} className="animate-pulse" />
-                      <span>Reflecting...</span>
-                    </>
-                  ) : (
-                    <>
-                      <MessageCircle size={18} />
-                      <span>Receive Insight</span>
-                    </>
-                  )}
-                </motion.button>
+                {/* AI Insight button — gated behind sign-in */}
+                {user ? (
+                  <motion.button
+                    onClick={handleGetAIResponse}
+                    disabled={!journalText.trim() || isGeneratingResponse}
+                    className="flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300"
+                    style={{
+                      backgroundColor: journalText.trim() ? theme.color : 'gray',
+                      color: 'white',
+                      opacity: journalText.trim() ? 1 : 0.5,
+                      cursor: journalText.trim() ? 'pointer' : 'not-allowed'
+                    }}
+                    whileHover={journalText.trim() ? { scale: 1.02 } : {}}
+                    whileTap={journalText.trim() ? { scale: 0.98 } : {}}
+                  >
+                    {isGeneratingResponse ? (
+                      <>
+                        <Sparkles size={18} className="animate-pulse" />
+                        <span>Reflecting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <MessageCircle size={18} />
+                        <span>Receive Insight</span>
+                      </>
+                    )}
+                  </motion.button>
+                ) : (
+                  <div
+                    className="flex items-center gap-2 px-4 py-2 rounded-full text-sm"
+                    style={{
+                      border: `1px solid ${theme.accent}`,
+                      color: theme.color,
+                      backgroundColor: isDarkMode ? theme.darkBg : theme.lightBg,
+                    }}
+                  >
+                    <Sparkles size={16} />
+                    <span>Sign in to receive insights</span>
+                  </div>
+                )}
               </div>
 
               <AnimatePresence>
@@ -468,6 +496,8 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
+                    aria-live="polite"
+                    aria-label="AI-generated spiritual insight, blessing, and prayer"
                   >
                     <div
                       className="p-4 rounded-md"

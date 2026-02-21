@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DevotionalProvider } from './contexts/DevotionalContext';
+import { AuthProvider } from './contexts/AuthContext';
 import { useTheme } from './contexts/ThemeContext';
 import { useDevotional } from './contexts/DevotionalContext';
 import Layout from './components/Layout';
@@ -87,11 +88,13 @@ function AppContent() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <DevotionalProvider>
-        <AppContent />
-      </DevotionalProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <DevotionalProvider>
+          <AppContent />
+        </DevotionalProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

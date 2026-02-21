@@ -7,6 +7,51 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Warm neutral surfaces */
+  --surface-light: #faf7f2;
+  --surface-dark: #1a1714;
+  --text-primary-light: #2c2420;
+  --text-primary-dark: #f0ebe3;
+  --text-muted-light: #7a6f67;
+  --text-muted-dark: #9e9488;
+
+  /* Type scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-display: clamp(2.5rem, 5vw, 4rem);
+  --leading-tight: 1.2;
+  --leading-normal: 1.6;
+  --leading-loose: 1.8;
+
+  /* Spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+
+  /* Border radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Focus ring */
+  --focus-color: #8B5CF6;
 }
 
 body {
@@ -16,7 +61,12 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Cormorant Garamond', serif;
   line-height: 1.2;
 }
@@ -27,6 +77,29 @@ p {
 
 .dark {
   color-scheme: dark;
+}
+
+/* ============================================
+   ACCESSIBILITY — Focus Indicators (WCAG 2.2)
+   ============================================ */
+
+/* Visible focus ring for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* No outline for mouse/touch (cleaner UX) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Minimum touch target size (WCAG 2.5.5) */
+button,
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .text-shadow {
@@ -104,35 +177,35 @@ p {
 
 /* Enhanced Shadow System */
 .shadow-glass {
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.1),
     0 1px 2px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .shadow-glass-lg {
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.15),
     0 4px 8px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .shadow-glass-xl {
-  box-shadow: 
+  box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.2),
     0 8px 16px rgba(0, 0, 0, 0.1),
     inset 0 2px 0 rgba(255, 255, 255, 0.1);
 }
 
 .dark .shadow-glass {
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     0 1px 2px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .dark .shadow-glass-lg {
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.4),
     0 4px 8px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -140,21 +213,21 @@ p {
 
 /* Glow Effects */
 .glow-purple {
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(139, 92, 246, 0.3),
     0 0 40px rgba(139, 92, 246, 0.2),
     0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .glow-emerald {
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(16, 185, 129, 0.3),
     0 0 40px rgba(16, 185, 129, 0.2),
     0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .glow-amber {
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(245, 158, 11, 0.3),
     0 0 40px rgba(245, 158, 11, 0.2),
     0 8px 32px rgba(0, 0, 0, 0.1);
@@ -162,7 +235,7 @@ p {
 
 /* Hover Glow Enhancement */
 .hover-glow-purple:hover {
-  box-shadow: 
+  box-shadow:
     0 0 30px rgba(139, 92, 246, 0.4),
     0 0 60px rgba(139, 92, 246, 0.3),
     0 12px 48px rgba(0, 0, 0, 0.15);
@@ -170,7 +243,7 @@ p {
 }
 
 .hover-glow-emerald:hover {
-  box-shadow: 
+  box-shadow:
     0 0 30px rgba(16, 185, 129, 0.4),
     0 0 60px rgba(16, 185, 129, 0.3),
     0 12px 48px rgba(0, 0, 0, 0.15);
@@ -178,7 +251,7 @@ p {
 }
 
 .hover-glow-amber:hover {
-  box-shadow: 
+  box-shadow:
     0 0 30px rgba(245, 158, 11, 0.4),
     0 0 60px rgba(245, 158, 11, 0.3),
     0 12px 48px rgba(0, 0, 0, 0.15);
@@ -207,7 +280,7 @@ p {
 
 /* Gradient Mesh Backgrounds */
 .gradient-mesh {
-  background: 
+  background:
     radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
     radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.1) 0px, transparent 50%),
@@ -215,7 +288,7 @@ p {
 }
 
 .dark .gradient-mesh {
-  background: 
+  background:
     radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
     radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.15) 0px, transparent 50%),
@@ -227,27 +300,29 @@ p {
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
 }
 
 .shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite;
 }
 
 /* Floating Animation */
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -259,9 +334,12 @@ p {
 
 /* Pulse Glow Animation */
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
   }
+
   50% {
     box-shadow: 0 0 40px rgba(139, 92, 246, 0.5);
   }
