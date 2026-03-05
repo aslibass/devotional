@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { THEMES } from '../constants/themes';
 import { Devotional } from '../types';
-import { Copy, ArrowLeft, ArrowRight, BookOpen, Quote, PenTool, Heart, Timer, Feather, Sparkles, MessageCircle, CheckCircle } from 'lucide-react';
+import { Copy, BookOpen, Quote, PenTool, Heart, Timer, Feather, Sparkles, MessageCircle, CheckCircle } from 'lucide-react';
 
 import { generateReflectionResponse } from '../utils/aiService';
 
@@ -101,11 +101,6 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate 
     }
   };
 
-  const prevStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
 
   // Enhanced image component with better styling
   const DevotionalImage: React.FC<{ className?: string }> = ({
@@ -701,36 +696,6 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate 
         </AnimatePresence>
       </div>
 
-      {/* Navigation Footer */}
-      <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-        <button
-          onClick={prevStep}
-          disabled={currentStep === 0}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${currentStep === 0
-            ? 'opacity-50 cursor-not-allowed'
-            : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-            }`}
-        >
-          <ArrowLeft size={16} />
-          <span>Previous</span>
-        </button>
-
-        <div className="text-sm opacity-75">
-          Step {currentStep + 1} of {steps.length}
-        </div>
-
-        <button
-          onClick={nextStep}
-          disabled={currentStep === steps.length - 1}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${currentStep === steps.length - 1
-            ? 'opacity-50 cursor-not-allowed'
-            : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-            }`}
-        >
-          <span>Next</span>
-          <ArrowRight size={16} />
-        </button>
-      </div>
     </motion.div>
   );
 };

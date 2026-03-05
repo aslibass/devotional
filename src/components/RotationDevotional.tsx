@@ -8,7 +8,7 @@ import LoadingSpinner from './LoadingSpinner';
 
 const RotationDevotional: React.FC = () => {
     const { devotional, isLoading, error, rotationInfo, generateRotationDevotional } = useDevotional();
-    const { isDarkMode, rotationDay, setRotationDay } = useTheme();
+    const { rotationDay, setRotationDay, setCurrentDay } = useTheme();
 
     const handleNavigate = (direction: 'prev' | 'next') => {
         const newDay = direction === 'next' ? rotationDay + 1 : rotationDay - 1;
@@ -16,6 +16,13 @@ const RotationDevotional: React.FC = () => {
         setRotationDay(normalizedDay);
         generateRotationDevotional(normalizedDay);
     };
+
+    // Sync global theme with rotation theme
+    React.useEffect(() => {
+        if (rotationInfo?.theme) {
+            setCurrentDay(rotationInfo.theme);
+        }
+    }, [rotationInfo?.theme, setCurrentDay]);
 
     if (isLoading) {
         return (
@@ -69,18 +76,19 @@ const RotationDevotional: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="flex justify-between items-center mt-8 gap-4"
+                className="flex justify-between items-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 gap-4"
             >
                 <button
                     onClick={() => handleNavigate('prev')}
                     className="flex items-center gap-2 px-6 py-3 rounded-full glass shadow-glass hover:shadow-glass-lg transition-all duration-300"
+                    aria-label="Previous day"
                 >
                     <ChevronLeft className="w-5 h-5" />
-                    <span className="hidden sm:inline">Previous</span>
+                    <span>Previous Day</span>
                 </button>
 
                 <div className="text-center">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                         {rotationDay === 93 ? 'Journey Complete! 🎉' : `${93 - rotationDay} days remaining`}
                     </p>
                 </div>
@@ -88,8 +96,9 @@ const RotationDevotional: React.FC = () => {
                 <button
                     onClick={() => handleNavigate('next')}
                     className="flex items-center gap-2 px-6 py-3 rounded-full glass shadow-glass hover:shadow-glass-lg transition-all duration-300"
+                    aria-label="Next day"
                 >
-                    <span className="hidden sm:inline">Next</span>
+                    <span>Next Day</span>
                     <ChevronRight className="w-5 h-5" />
                 </button>
             </motion.div>
