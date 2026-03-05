@@ -14,8 +14,8 @@ interface DevotionalCardProps {
   totalDays: number;
 }
 
-const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate, totalDays }) => {
-  const { isDarkMode, dayNumber } = useTheme();
+const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate }) => {
+  const { isDarkMode } = useTheme();
   const { user } = useAuth();
   const theme = THEMES[devotional.day];
 
@@ -108,9 +108,8 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
   };
 
   // Enhanced image component with better styling
-  const DevotionalImage: React.FC<{ className?: string; showCaption?: boolean }> = ({
-    className = "",
-    showCaption = false
+  const DevotionalImage: React.FC<{ className?: string }> = ({
+    className = ""
   }) => {
     if (!devotional.devotionalImage) return null;
 
@@ -128,13 +127,6 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
             e.currentTarget.style.display = 'none';
           }}
         />
-        {showCaption && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-            <p className="text-white text-sm opacity-90">
-              {theme.name} • Day {dayNumber}
-            </p>
-          </div>
-        )}
       </div>
     );
   };
@@ -190,7 +182,7 @@ const DevotionalCard: React.FC<DevotionalCardProps> = ({ devotional, onNavigate,
             className="space-y-6"
           >
             {/* Image Header */}
-            <DevotionalImage className="h-48 shadow-lg" showCaption />
+            <DevotionalImage className="h-48 shadow-lg" />
 
             <div
               className="p-8 rounded-lg text-center"

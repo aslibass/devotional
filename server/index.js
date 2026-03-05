@@ -17,18 +17,21 @@ const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
 const usageLog = new Map();
 
 // ── Security headers ──────────────────────────────────────────────────────────
+// ── Security headers ──────────────────────────────────────────────────────────
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", 'https://accounts.google.com'],
+            scriptSrc: ["'self'", "'unsafe-inline'", 'https://accounts.google.com', 'https://apis.google.com'],
             styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
             fontSrc: ["'self'", 'https://fonts.gstatic.com'],
             imgSrc: ["'self'", 'data:', 'https:', 'https://lh3.googleusercontent.com'],
-            connectSrc: ["'self'"],
+            connectSrc: ["'self'", 'https://accounts.google.com'],
             frameSrc: ['https://accounts.google.com'],
         },
     },
+    crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+    crossOriginEmbedderPolicy: false,
     hsts: { maxAge: 31536000, includeSubDomains: true },
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));

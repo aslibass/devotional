@@ -55,11 +55,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // Rotation system state - now based on calendar date
-  const [rotationDay, setRotationDay] = useState<number>(() => {
-    // Always use current calendar date
-    return getCurrentRotationDay();
-  });
+  // Rotation system state - always derived from current calendar date
+  const [rotationDay, setRotationDay] = useState<number>(() => getCurrentRotationDay());
 
   const [hasSeenLanding, setHasSeenLanding] = useState<boolean>(() => {
     const saved = localStorage.getItem('hasSeenLanding');
@@ -113,9 +110,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [isDarkMode]);
 
-  useEffect(() => {
-    localStorage.setItem('rotationDay', rotationDay.toString());
-  }, [rotationDay]);
+  // No longer persisting rotationDay to localStorage to avoid stale date issues
 
 
 
